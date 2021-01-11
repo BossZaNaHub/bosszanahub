@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/bosszanahub/bzlib/bzgorm"
 	"github.com/bosszanahub/bzlib/bzmongo"
 	"github.com/spf13/viper"
 	"os"
@@ -97,14 +98,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	c, err := client.SelectCollection("users", User{Name: "Test"})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(c)
 
+	_, err = bzgorm.NewClient(bzgorm.Config{Username: "boss", Password: "boss", DB: "boss", Host: "localhost"}).InitMysql()
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(c)
 
 	defer client.CloseConnection()
 }
